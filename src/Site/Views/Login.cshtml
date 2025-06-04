@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Cms.Web.Website.Controllers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	Layout = null;
+	var redirectUrl = Context.Request.Query["ReturnUrl"].ToString().NullOrWhiteSpaceAsNull() ?? "/";
+	var loginModel = new LoginModel
+	{
+		RedirectUrl = redirectUrl
+	};
+}
+<html lang="en">
+<head>
+	<title>Login page</title>
+</head>
+<body>
+@using (Html.BeginUmbracoForm<UmbLoginController>("HandleLogin", new { RedirectUrl = loginModel.RedirectUrl }))
+{
+	<h4>Log in as "Some Group".</h4>
+	<hr />
+	<div asp-validation-summary="ModelOnly"></div>
+	<div>
+		<label asp-for="@loginModel.Username"></label>
+		<input asp-for="@loginModel.Username" required value="some@local" />
+		<span asp-validation-for="@loginModel.Username"></span>
+	</div>
+	<div>
+		<label asp-for="@loginModel.Password"></label>
+		<input asp-for="@loginModel.Password" required value="1234567890" />
+		<span asp-validation-for="@loginModel.Password"></span>
+	</div>
+	<button type="submit">Log in</button>
+}
+@using (Html.BeginUmbracoForm<UmbLoginController>("HandleLogin", new { RedirectUrl = loginModel.RedirectUrl }))
+{
+	<h4>Log in as "Another Group".</h4>
+	<hr />
+	<div asp-validation-summary="ModelOnly"></div>
+	<div>
+		<label asp-for="@loginModel.Username"></label>
+		<input asp-for="@loginModel.Username" required value="another@local" />
+		<span asp-validation-for="@loginModel.Username"></span>
+	</div>
+	<div>
+		<label asp-for="@loginModel.Password"></label>
+		<input asp-for="@loginModel.Password" required value="1234567890" />
+		<span asp-validation-for="@loginModel.Password"></span>
+	</div>
+	<button type="submit">Log in</button>
+}
+</body>
+</html>
